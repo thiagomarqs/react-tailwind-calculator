@@ -1,6 +1,6 @@
 import { ReactComponent as BackspaceIcon } from '../assets/icons/backspace.svg';
+import { CalculatorHistoryEntry } from "../models/CalculatorHistoryEntry";
 import { Button } from "./Button";
-import { CalculatorHistoryEntry } from './Calculator';
 
 interface Props {
   currentExpression: string;
@@ -101,7 +101,7 @@ export const Panel = (props: Props) => {
   }
 
   return (
-    <div className="grid gap-1 grid-rows-6 grid-cols-4 text-xl text-bold">
+    <div className="h-full grid gap-1 grid-rows-6 grid-cols-4 text-xl text-bold">
       <Button theme="dark" onClick={percentage}>%</Button>
       <Button theme="dark" onClick={clear}>CE</Button>
       <Button theme="dark" onClick={clear}>C</Button>
