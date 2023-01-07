@@ -26,7 +26,7 @@ export const Calculator = () => {
   const clearHistory = () => setHistory([]);
 
   return (
-    <div className="absolute p-1.5 box-border flex flex-col bg-stone-900 w-screen h-screen overflow-hidden">
+    <div className="absolute w-screen h-screen overflow-hidden lg:flex ">
       <History
         history={history}
         clearHistory={clearHistory}
@@ -35,17 +35,19 @@ export const Calculator = () => {
         setExpression={setExpression}
         setLatestExpression={setLatestExpression}
       />
-      <Header
-        title="Calculator"
-        toggleHistory={toggleHistory}
-      />
-      <Display latestExpression={latestExpression}>{expression}</Display>
-      <Panel
-        currentExpression={expression}
-        setExpression={setExpression}
-        addToHistory={addToHistory}
-        setLatestExpression={setLatestExpression}
-      />
+      <div className="p-1.5 box-border w-full h-full flex flex-col bg-stone-900">
+        <Header
+          title="Calculator"
+          toggleHistory={toggleHistory}
+        />
+        <Display latestExpression={latestExpression}>{expression}</Display>
+        <Panel
+          currentExpression={expression}
+          setExpression={setExpression}
+          addToHistory={addToHistory}
+          setLatestExpression={setLatestExpression}
+        />
+      </div>
     </div>
   )
 }

@@ -16,7 +16,7 @@ export const Header = (props: Props) => {
         <Button theme="simple" className="py-1 px-0 mx-2" onClick={() => {}}><MenuIcon/></Button>
         <h1 className="text-2xl text-white font-semibold">{title}</h1>
       </div>
-      <Button theme={"simple"} onClick={toggleHistory}><HistoryIcon/></Button>
+      <Button theme={"simple"} onClick={toggleHistory} className="sm:hidden"><HistoryIcon/></Button>
     </div>
   )
 }
