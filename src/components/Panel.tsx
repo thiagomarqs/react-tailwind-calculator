@@ -19,7 +19,16 @@ export const Panel = (props: Props) => {
   } = props;
 
   const addToExpression = (value: any) => {
-    const newExpression = currentExpression == '0' ? `${value}` : currentExpression + `${value}`
+    let newExpression;
+
+    if(currentExpression == '0' && isNaN(value)) {
+      newExpression = '0';
+    }
+
+    else {
+      newExpression = currentExpression == '0' ? `${value}` : currentExpression + `${value}`;
+    }
+
     setExpression(newExpression);
   }
 

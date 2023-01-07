@@ -32,7 +32,7 @@ export const History = (props: Props) => {
           {history.length == 0 && <p className="px-2 text-white">There's no history yet.</p>}
           {history.length > 0 &&
             <div className="h-full grid grid-rows-2 grid-cols-1">
-              <div className="row-span-2 overflow-scroll">
+              <div className="row-span-2 overflow-y-scroll">
                 {history.map(entry => <HistoryItem key={uuid()} entry={entry} setExpression={setExpression} setLatestExpression={setLatestExpression}/>)}
               </div>
               <div className="bottom-0 w-full py-4 text-right text-white">
