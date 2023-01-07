@@ -3,6 +3,7 @@ import { CalculatorHistoryEntry } from "../models/CalculatorHistoryEntry";
 import { Display } from "./Display";
 import { Header } from "./Header";
 import { History } from "./History/History";
+import { Movable } from "./Movable";
 import { Panel } from "./Panel";
 
 export const Calculator = () => {
@@ -10,6 +11,7 @@ export const Calculator = () => {
   const [history, setHistory] = useState<CalculatorHistoryEntry[]>([]);
   const [latestExpression, setLatestExpression] = useState<CalculatorHistoryEntry>({ expression: "", result: "" });
   const [showHistory, setShowHistory] = useState(false);
+  const [isPinned, setPinned] = useState(false);
 
   const addToHistory = (entry: CalculatorHistoryEntry) => {
     setHistory(history => {
@@ -25,29 +27,47 @@ export const Calculator = () => {
 
   const clearHistory = () => setHistory([]);
 
+  const togglePin = () => {
+    if(isPinned) restoreCalculatorOriginalDimensions();
+
+    setPinned(current => !current);
+  }
+
+  const restoreCalculatorOriginalDimensions = () => {
+    const calculator = document.getElementById("calculator") as HTMLDivElement;
+    calculator.style.width = "";
+    calculator.style.height = "";
+  }
+
   return (
-    <div className="absolute w-screen h-screen overflow-hidden lg:flex ">
-      <History
-        history={history}
-        clearHistory={clearHistory}
-        showHistory={showHistory}
-        toggleHistory={toggleHistory}
-        setExpression={setExpression}
-        setLatestExpression={setLatestExpression}
-      />
-      <div className="p-1.5 box-border w-full h-full flex flex-col bg-stone-900">
-        <Header
-          title="Calculator"
+    <Movable allowMove={isPinned}>
+      <div id="calculator" className={"absolute overflow-hidden m-0" + " " + `${isPinned ? "w-72 h-max min-w-max drop-shadow-[0px_20px_20px_rgba(0,0,0,0.5)] rounded-md border border-teal-600 resize" : "w-screen h-screen resize-none lg:flex"}`}>
+
+        {!isPinned && <History
+          history={history}
+          clearHistory={clearHistory}
+          showHistory={showHistory}
           toggleHistory={toggleHistory}
-        />
-        <Display latestExpression={latestExpression}>{expression}</Display>
-        <Panel
-          currentExpression={expression}
           setExpression={setExpression}
-          addToHistory={addToHistory}
           setLatestExpression={setLatestExpression}
-        />
+        />}
+        
+        <div className="p-1.5 box-border w-full h-full flex flex-col bg-stone-900">
+          <Header
+            title="Calculator"
+            toggleHistory={toggleHistory}
+            isPinned={isPinned}
+            togglePin={togglePin}
+          />
+          <Display latestExpression={latestExpression}>{expression}</Display>
+          <Panel
+            currentExpression={expression}
+            setExpression={setExpression}
+            addToHistory={addToHistory}
+            setLatestExpression={setLatestExpression}
+          />
+        </div>
       </div>
-    </div>
+    </Movable>
   )
 }
