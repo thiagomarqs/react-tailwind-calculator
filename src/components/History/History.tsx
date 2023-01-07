@@ -27,7 +27,7 @@ export const History = (props: Props) => {
 
   return (
     <>
-      <div className={`absolute z-10 rounded-lg m-0 left-0 w-screen h-2/3 py-2 px-1 bg-stone-900 transition-all duration-300 ${showHistory ? "opacity-100 top-1/3" : "opacity-0 top-full"}`}>
+      <div className={`absolute z-20 w-screen rounded-lg m-0 left-0 h-2/3 py-2 px-1 bg-stone-900 transition-all duration-300 ${showHistory ? "opacity-100 top-1/3" : "opacity-0 top-full"}`}>
         <div className="h-full">
           {history.length == 0 && <p className="px-2 text-white">There's no history yet.</p>}
           {history.length > 0 &&
