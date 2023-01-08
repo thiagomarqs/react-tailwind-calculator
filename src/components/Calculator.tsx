@@ -65,11 +65,13 @@ export const Calculator = () => {
         id="calculator" 
         className={"absolute overflow-hidden m-0 h-max min-w-max" + " " + `${isPinned ? "w-72 drop-shadow-[0px_20px_20px_rgba(0,0,0,0.5)] rounded-md border border-teal-600 resize" : "w-screen h-screen resize-none lg:flex"}`}
       >
-        <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar}>
-          <SidebarItem icon={<Info/>} title={"GitHub"} onClick={() => window.location.href = "https://github.com/thiagomarqs"} />
-        </Sidebar>
-        {
-        !isPinned && 
+        {!isPinned &&
+          <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar}>
+            <SidebarItem icon={<Info/>} title={"GitHub"} onClick={() => window.location.href = "https://github.com/thiagomarqs"} />
+          </Sidebar>
+        }
+
+        {!isPinned && 
           <History
             history={history}
             clearHistory={clearHistory}
@@ -79,6 +81,7 @@ export const Calculator = () => {
             setLatestExpression={setLatestExpression}
           />
         }
+
         <div className="p-1.5 box-border w-full h-full flex flex-col bg-stone-900">
           <Header
             title="Calculator"

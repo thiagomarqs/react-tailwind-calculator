@@ -51,7 +51,7 @@ export const Movable = (props: Props) => {
 
   return (
     <div 
-      className={`movable m-0 w-fit h-fit ${allowMove ? "cursor-move" : ""}`}
+      className={`movable m-0 w-fit h-fit overflow-auto ${allowMove ? "cursor-move" : ""}`}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerMove={handlePointerMove}
