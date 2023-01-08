@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { ReactComponent as BackspaceIcon } from '../assets/icons/backspace.svg';
 import { CalculatorHistoryEntry } from "../models/CalculatorHistoryEntry";
 import { Button } from "./Button";
 
 interface Props {
+  addToExpression: (value: number | string) => void;
   currentExpression: string;
   setExpression: React.Dispatch<React.SetStateAction<string>>;
   setLatestExpression: React.Dispatch<React.SetStateAction<CalculatorHistoryEntry>>;
@@ -12,25 +14,19 @@ interface Props {
 export const Panel = (props: Props) => {
 
   const { 
+    addToExpression,
     currentExpression, 
     setExpression,
     setLatestExpression,
     addToHistory
   } = props;
 
-  const addToExpression = (value: any) => {
-    let newExpression;
+  const allowedKeys = ["+", "-", "/", "*", "%", "Enter", "=", ",", "."];
 
-    if(currentExpression == '0' && isNaN(value)) {
-      newExpression = '0';
-    }
-
-    else {
-      newExpression = currentExpression == '0' ? `${value}` : currentExpression + `${value}`;
-    }
-
-    setExpression(newExpression);
-  }
+  useEffect(() => {
+    addEventListener("keydown", handleKeyDown);
+    return () => removeEventListener("keydown", handleKeyDown);
+  })
 
   const tryIfNumber = (onClick: (number: number) => any, fallbackonClick?: () => any) => {
     const number = Number(currentExpression);
@@ -107,6 +103,33 @@ export const Panel = (props: Props) => {
     });
 
     setExpression(finalResult);
+  }
+
+  const performOperation = (operation: string) => {  
+    const operationsByKey: {[operation: string] : Function} = {
+      "+": sum,
+      "-": subtract,
+      "/": divide,
+      "*": multiply,
+      "%": percentage,
+      "Enter": result,
+      "=": result,
+      ",": addDecimal,
+      ".": addDecimal
+    }
+    return operationsByKey[operation]();
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const { key } = e;
+
+    if(key == "Backspace") return backspace();
+    
+    if(allowedKeys.includes(key)) return performOperation(key);
+
+    if(isNaN(Number(key))) return;
+
+    addToExpression(key);
   }
 
   return (

@@ -13,10 +13,24 @@ export const Calculator = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [isPinned, setPinned] = useState(false);
 
+  const addToExpression = (value: any) => {
+    let newExpression;
+
+    if(expression == '0' && isNaN(value)) {
+      newExpression = '0';
+    }
+    
+    else {
+      newExpression = expression == '0' ? `${value}` : expression + `${value}`;
+    }
+
+    if(newExpression.length <= 16) setExpression(newExpression);
+  }
+
   const addToHistory = (entry: CalculatorHistoryEntry) => {
     setHistory(history => {
       const newHistory = [...history];
-      newHistory.push(entry);
+      newHistory.unshift(entry);
       return newHistory;
     })
 
@@ -41,16 +55,21 @@ export const Calculator = () => {
 
   return (
     <Movable allowMove={isPinned}>
-      <div id="calculator" className={"absolute overflow-hidden m-0" + " " + `${isPinned ? "w-72 h-max min-w-max drop-shadow-[0px_20px_20px_rgba(0,0,0,0.5)] rounded-md border border-teal-600 resize" : "w-screen h-screen resize-none lg:flex"}`}>
-
-        {!isPinned && <History
-          history={history}
-          clearHistory={clearHistory}
-          showHistory={showHistory}
-          toggleHistory={toggleHistory}
-          setExpression={setExpression}
-          setLatestExpression={setLatestExpression}
-        />}
+      <div 
+        id="calculator" 
+        className={"absolute overflow-hidden m-0 h-max min-w-max" + " " + `${isPinned ? "w-72 drop-shadow-[0px_20px_20px_rgba(0,0,0,0.5)] rounded-md border border-teal-600 resize" : "w-screen h-screen resize-none lg:flex"}`}
+      >
+        {
+        !isPinned && 
+          <History
+            history={history}
+            clearHistory={clearHistory}
+            showHistory={showHistory}
+            toggleHistory={toggleHistory}
+            setExpression={setExpression}
+            setLatestExpression={setLatestExpression}
+          />
+        }
         
         <div className="p-1.5 box-border w-full h-full flex flex-col bg-stone-900">
           <Header
@@ -61,6 +80,7 @@ export const Calculator = () => {
           />
           <Display latestExpression={latestExpression}>{expression}</Display>
           <Panel
+            addToExpression={addToExpression}
             currentExpression={expression}
             setExpression={setExpression}
             addToHistory={addToHistory}

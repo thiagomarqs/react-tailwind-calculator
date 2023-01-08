@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react"
 interface Props extends PropsWithChildren {
   theme: "dark" | "light" | "simple";
   onClick: Function;
+  onKeyDown?: (e: any) => void;
   className?: string;
   name?: string;
 }
@@ -15,10 +16,10 @@ const classNameByType = {
 
 export const Button = (props: Props) => {
 
-  const { theme: type, onClick, className, name } = props;
+  const { theme: type, onClick, onKeyDown, className, name } = props;
   const classes = `${classNameByType[type]} ${className? className : ""}`;
 
   return (
-    <button title={name ? name : ""} onClick={() => onClick()} className={`p-3 text-white rounded-md ${classes}`}>{props.children}</button>
+    <button title={name ? name : ""} onKeyDown={onKeyDown} onClick={() => onClick()} className={`p-3 text-white rounded-md ${classes}`}>{props.children}</button>
   )
 }
