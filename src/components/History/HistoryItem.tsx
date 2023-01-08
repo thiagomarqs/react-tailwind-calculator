@@ -1,4 +1,5 @@
 import { CalculatorHistoryEntry } from "../../models/CalculatorHistoryEntry"
+import { ListItem } from "../Base/ListItem";
 
 interface Props {
   entry: CalculatorHistoryEntry;
@@ -16,10 +17,10 @@ export const HistoryItem = (props: Props) => {
 
   return (
     <div onClick={onClick} className="group rounded-lg text-end text-white my-2 py-2 px-3 hover:bg-stone-800">
-      <div className="transition-scale duration-75 group-active:scale-95">
+      <ListItem>
         <div className="text-gray-400 tracking-widest">{expression} =</div>
         <div className="text-gray-50 font-bold text-xl">{result}</div>
-      </div>
+      </ListItem>
     </div>
   )
 }

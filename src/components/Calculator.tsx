@@ -5,12 +5,16 @@ import { Header } from "./Header";
 import { History } from "./History/History";
 import { Movable } from "./Movable";
 import { Panel } from "./Panel";
+import { Sidebar } from "./Sidebar/Sidebar";
+import { SidebarItem } from "./Sidebar/SidebarItem";
+import { ReactComponent as Info} from "../assets/icons/info.svg";
 
 export const Calculator = () => {
   const [expression, setExpression] = useState('0');
   const [history, setHistory] = useState<CalculatorHistoryEntry[]>([]);
   const [latestExpression, setLatestExpression] = useState<CalculatorHistoryEntry>({ expression: "", result: "" });
   const [showHistory, setShowHistory] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [isPinned, setPinned] = useState(false);
 
   const addToExpression = (value: any) => {
@@ -53,12 +57,17 @@ export const Calculator = () => {
     calculator.style.height = "";
   }
 
+  const toggleSidebar = () => setShowSidebar(current => !current);
+
   return (
     <Movable allowMove={isPinned}>
       <div 
         id="calculator" 
         className={"absolute overflow-hidden m-0 h-max min-w-max" + " " + `${isPinned ? "w-72 drop-shadow-[0px_20px_20px_rgba(0,0,0,0.5)] rounded-md border border-teal-600 resize" : "w-screen h-screen resize-none lg:flex"}`}
       >
+        <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar}>
+          <SidebarItem icon={<Info/>} title={"GitHub"} onClick={() => window.location.href = "https://github.com/thiagomarqs"} />
+        </Sidebar>
         {
         !isPinned && 
           <History
@@ -70,11 +79,11 @@ export const Calculator = () => {
             setLatestExpression={setLatestExpression}
           />
         }
-        
         <div className="p-1.5 box-border w-full h-full flex flex-col bg-stone-900">
           <Header
             title="Calculator"
             toggleHistory={toggleHistory}
+            toggleSidebar={toggleSidebar}
             isPinned={isPinned}
             togglePin={togglePin}
           />
